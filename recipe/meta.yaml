@@ -5,21 +5,22 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/d/demoshell/demoshell-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/d/demoshell/demoshell-{{ version }}.tar.gz
   sha256: ff962068ee0124917f8ddcd9d69636a2cbc8ad058246fadedb78698959916c17
 
 build:
-  number: 1001
+  number: 1002
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python >=3
+    - python {{ python_min }}
+    - setuptools
     - pip
     - pbr
   run:
-    - python >=3
+    - python >={{ python_min }}
     - urwid >=2.0.1
     - appdirs >=1.4.3
 
@@ -30,6 +31,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/dhellmann/demoshell
